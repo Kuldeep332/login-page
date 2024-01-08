@@ -41,6 +41,23 @@ router.post("/login",passport.authenticate("local",{
 }),function(req,res){
   
 })
+router.post('/lo',function(res,req,next){
+  res.render("login")
+})
+router.post('/lo',function(req,res,next){
+  var userdata=new UserModel({
+    username:req.body.username,
+    secret:req.body.secret
+  });
+  UserModel.register(userdata,req.body.password).then(function(registereduser){
+    passport.authenticate("local")(req,res,function(){
+      res.redirect("/profile");
+    })
+  })
+
+// res.send("hello")
+})
+
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()){
     return next();
